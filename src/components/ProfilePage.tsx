@@ -156,7 +156,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userEmail, onBack }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+    <div className="min-h-screen bg-[#0C0D11] p-4">
       <div className="container mx-auto max-w-2xl">
         <div className="mb-6">
           <Button 
@@ -180,7 +180,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userEmail, onBack }) => {
             <div className="flex flex-col items-center space-y-4">
               <Avatar className="h-24 w-24">
                 <AvatarImage src={profileImageUrl} alt={displayName || fullName} />
-                <AvatarFallback className="bg-slate-900 text-white text-2xl">
+                <AvatarFallback className="bg-[#131520] text-[#C8963C] text-2xl">
                   {getInitials(displayName || fullName || userEmail)}
                 </AvatarFallback>
               </Avatar>
@@ -197,7 +197,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userEmail, onBack }) => {
                   type="email"
                   value={userEmail}
                   disabled
-                  className="bg-gray-50"
+                  className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#8A8070]"
                 />
               </div>
 
@@ -228,7 +228,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userEmail, onBack }) => {
                   <Shield className="h-4 w-4" />
                   Account Type
                 </Label>
-                <div className="p-3 bg-gray-50 rounded-md">
+                <div className="p-3 bg-[#111318] rounded-md border border-[rgba(255,255,255,0.06)]">
                   <p className="font-medium">
                     {userProfile?.user_role === 'trustee' ? 'Trustee / Business' : 'Individual'}
                   </p>
@@ -253,7 +253,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userEmail, onBack }) => {
             <Button 
               onClick={handleSave} 
               disabled={isLoading}
-              className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+              className="w-full bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">

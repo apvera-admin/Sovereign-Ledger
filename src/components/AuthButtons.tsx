@@ -36,14 +36,14 @@ const AuthButtons: React.FC<AuthButtonsProps> = ({ onLoginClick, onSignupClick }
       <Button
         variant="ghost"
         onClick={onLoginClick}
-        className="text-sm hover:bg-amber-100 hover:text-amber-800"
+        className="text-sm text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]"
       >
         <LogIn className="mr-2 h-4 w-4" />
         Login
       </Button>
       <Button
         onClick={onSignupClick}
-        className="text-sm bg-amber-600 hover:bg-amber-700 text-white"
+        className="text-sm bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
       >
         <UserPlus className="mr-2 h-4 w-4" />
         Sign Up

@@ -138,7 +138,7 @@ const ClientFolderManager: React.FC<ClientFolderManagerProps> = ({
   if (loading) {
     return (
       <div className="flex items-center justify-center p-4">
-        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-600" />
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#C8963C]" />
       </div>
     );
   }
@@ -153,7 +153,7 @@ const ClientFolderManager: React.FC<ClientFolderManagerProps> = ({
           </CardTitle>
           <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
             <DialogTrigger asChild>
-              <Button size="sm" className="bg-amber-600 hover:bg-amber-700">
+              <Button size="sm" className="bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold">
                 <FolderPlus className="mr-2 h-4 w-4" />
                 New Folder
               </Button>
@@ -186,14 +186,14 @@ const ClientFolderManager: React.FC<ClientFolderManagerProps> = ({
                   <Button 
                     variant="outline" 
                     onClick={() => setShowCreateDialog(false)}
-                    className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                    className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                   >
                     Cancel
                   </Button>
                   <Button 
                     onClick={createFolder} 
                     disabled={!newFolderName.trim()}
-                    className="bg-amber-600 hover:bg-amber-700"
+                    className="bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
                   >
                     Create Folder
                   </Button>
@@ -215,13 +215,13 @@ const ClientFolderManager: React.FC<ClientFolderManagerProps> = ({
                 key={folder.id}
                 className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
                   selectedFolderId === folder.id
-                    ? 'bg-amber-50 border-amber-200'
-                    : 'hover:bg-gray-50'
+                    ? 'bg-[rgba(200,150,60,0.08)] border-[rgba(200,150,60,0.2)]'
+                    : 'hover:bg-[rgba(255,255,255,0.03)]'
                 }`}
                 onClick={() => onFolderSelect(folder.id, folder.name)}
               >
                 <div className="flex items-center gap-3">
-                  <Folder className="h-5 w-5 text-amber-600" />
+                  <Folder className="h-5 w-5 text-[#C8963C]" />
                   <div>
                     <div className="font-medium">{folder.name}</div>
                     {folder.client_email && (

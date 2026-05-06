@@ -33,7 +33,7 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, onViewCertificat
                   <FileText className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                   <span className="text-sm sm:text-base truncate">{doc.title}</span>
                 </div>
-                <span className="text-xs sm:text-sm font-mono bg-gray-100 px-2 py-1 rounded self-start">
+                <span className="text-xs sm:text-sm font-mono bg-[#111318] text-[#C8963C] px-2 py-1 rounded self-start border border-[rgba(200,150,60,0.2)]">
                   {doc.record_number}
                 </span>
               </CardTitle>
@@ -41,14 +41,14 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, onViewCertificat
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 <div className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                  <Calendar className="h-4 w-4 text-[#8A8070] flex-shrink-0" />
                   <span className="text-sm">
                     {new Date(doc.upload_date).toLocaleDateString()}
                   </span>
                 </div>
                 {doc.submitter_name && (
                   <div className="flex items-center space-x-2">
-                    <User className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                    <User className="h-4 w-4 text-[#8A8070] flex-shrink-0" />
                     <span className="text-sm truncate">{doc.submitter_name}</span>
                   </div>
                 )}

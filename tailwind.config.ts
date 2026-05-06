@@ -63,11 +63,18 @@ export default {
           'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
-        }
+        },
+        'asn-bg': '#0C0D11',
+        'asn-secondary': '#111318',
+        'asn-card': '#131520',
+        'asn-gold': '#C8963C',
+        'asn-gold-hover': '#D4A84A',
+        'asn-cream': '#F0EAD6',
+        'asn-muted': '#8A8070',
       },
       fontFamily: {
+        sans: ['Georgia', 'Palatino Linotype', 'serif'],
         mono: ['JetBrains Mono', 'monospace'],
-        sans: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         lg: 'calc(var(--radius) + 2px)',

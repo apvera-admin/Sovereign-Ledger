@@ -140,7 +140,7 @@ export const TrusteeDashboard: React.FC = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center p-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C8963C]" />
       </div>
     );
   }
@@ -166,7 +166,7 @@ export const TrusteeDashboard: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => setShowUpload(false)}
-            className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+            className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
           >
             Back to Dashboard
           </Button>
@@ -189,7 +189,7 @@ export const TrusteeDashboard: React.FC = () => {
         <div className="flex gap-2">
           <Button 
             onClick={() => setShowUpload(true)}
-            className="bg-amber-600 hover:bg-amber-700"
+            className="bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
           >
             <Upload className="mr-2 h-4 w-4" />
             Upload Document
@@ -197,7 +197,7 @@ export const TrusteeDashboard: React.FC = () => {
           <Button 
             variant="outline" 
             onClick={() => setShowProfile(true)}
-            className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+            className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
           >
             <User className="mr-2 h-4 w-4" />
             Profile
@@ -234,7 +234,7 @@ export const TrusteeDashboard: React.FC = () => {
                     setSelectedFolderId('');
                     setSelectedFolderName('');
                   }}
-                  className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                  className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                 >
                   Show All Documents
                 </Button>

@@ -148,7 +148,7 @@ const Dashboard: React.FC = () => {
   if (showCertificate && (uploadedDocument || selectedDocument)) {
     return (
       <AppLayout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+        <div className="min-h-screen bg-[#0C0D11] p-4">
           <div className="container mx-auto max-w-4xl">
             <RecordCertificate 
               document={uploadedDocument || selectedDocument} 
@@ -163,7 +163,7 @@ const Dashboard: React.FC = () => {
   if (showUpload) {
     return (
       <AppLayout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+        <div className="min-h-screen bg-[#0C0D11] p-4">
           <div className="container mx-auto max-w-4xl">
             <div className="mb-6">
               <Button 
@@ -187,7 +187,7 @@ const Dashboard: React.FC = () => {
   if (showSearch) {
     return (
       <AppLayout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+        <div className="min-h-screen bg-[#0C0D11] p-4">
           <div className="container mx-auto max-w-4xl">
             <div className="mb-6">
               <Button 
@@ -220,11 +220,11 @@ const Dashboard: React.FC = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+      <div className="min-h-screen bg-[#0C0D11] p-4">
         <div className="container mx-auto max-w-6xl">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">Dashboard</h1>
-            <p className="text-slate-600">Manage your recorded documents</p>
+            <h1 className="text-3xl font-bold text-[#F0EAD6] mb-2">Dashboard</h1>
+            <p className="text-[#8A8070]">Manage your recorded documents</p>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -239,15 +239,15 @@ const Dashboard: React.FC = () => {
                 <CardContent className="text-center">
                   <Avatar className="h-20 w-20 mx-auto mb-4">
                     <AvatarImage src={userProfile?.profile_image_url} alt={displayName} />
-                    <AvatarFallback className="bg-slate-900 text-white text-xl">
+                    <AvatarFallback className="bg-[#131520] text-[#C8963C] text-xl">
                       {getInitials(displayName)}
                     </AvatarFallback>
                   </Avatar>
                   <h3 className="font-semibold text-lg mb-2">{displayName}</h3>
-                  <p className="text-sm text-slate-600 mb-4">{user?.email}</p>
-                  <Button 
-                    variant="outline" 
-                    className="w-full border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                  <p className="text-sm text-[#8A8070] mb-4">{user?.email}</p>
+                  <Button
+                    variant="outline"
+                    className="w-full border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                     onClick={handleViewProfile}
                   >
                     Edit Profile
@@ -266,9 +266,9 @@ const Dashboard: React.FC = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-slate-600 mb-4">Record a new document to the ledger</p>
+                    <p className="text-sm text-[#8A8070] mb-4">Record a new document to the ledger</p>
                     <Button 
-                      className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                      className="w-full bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
                       onClick={handleUpload}
                     >
                       Upload New Document
@@ -284,10 +284,10 @@ const Dashboard: React.FC = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-slate-600 mb-4">Search your recorded documents</p>
+                    <p className="text-sm text-[#8A8070] mb-4">Search your recorded documents</p>
                     <Button 
                       variant="outline" 
-                      className="w-full border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                      className="w-full border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                       onClick={handleSearch}
                     >
                       Search My Documents
@@ -303,10 +303,10 @@ const Dashboard: React.FC = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-slate-600 mb-4">Find answers to common questions</p>
+                    <p className="text-sm text-[#8A8070] mb-4">Find answers to common questions</p>
                     <Button 
                       variant="outline" 
-                      className="w-full border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                      className="w-full border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                       onClick={handleKnowledgeBase}
                     >
                       View FAQ
@@ -323,7 +323,7 @@ const Dashboard: React.FC = () => {
                 <FileText className="h-5 w-5" />
                 My Documents ({myDocuments.length})
                 {loadingDocuments && (
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-600 ml-2" />
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#C8963C] ml-2" />
                 )}
               </CardTitle>
             </CardHeader>
@@ -333,22 +333,22 @@ const Dashboard: React.FC = () => {
                   <p className="text-red-600 mb-4">{error}</p>
                   <Button 
                     onClick={() => loadMyDocuments(true)}
-                    className="bg-amber-600 hover:bg-amber-700 text-white"
+                    className="bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
                   >
                     Try Again
                   </Button>
                 </div>
               ) : loadingDocuments ? (
                 <div className="text-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto mb-4" />
-                  <p className="text-slate-600">Loading documents...</p>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C8963C] mx-auto mb-4" />
+                  <p className="text-[#8A8070]">Loading documents...</p>
                 </div>
               ) : myDocuments.length === 0 ? (
                 <div className="text-center py-8">
-                  <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-                  <p className="text-slate-600 mb-4">No documents recorded yet</p>
+                  <FileText className="h-12 w-12 text-[#8A8070] mx-auto mb-4" />
+                  <p className="text-[#8A8070] mb-4">No documents recorded yet</p>
                   <Button 
-                    className="bg-amber-600 hover:bg-amber-700 text-white"
+                    className="bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
                     onClick={handleUpload}
                   >
                     Record Your First Document

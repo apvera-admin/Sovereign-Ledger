@@ -42,7 +42,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchResults }) => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto bg-[#131520] border border-[rgba(200,150,60,0.22)]">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
           <Search className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -84,7 +84,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchResults }) => {
             />
           </div>
           
-          <Button type="submit" disabled={searching} className="w-full mt-6 bg-amber-600 hover:bg-amber-700 text-white">
+          <Button type="submit" disabled={searching} className="w-full mt-6 bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold">
             <Search className="h-4 w-4 mr-2" />
             {searching ? 'Searching...' : 'Search Documents'}
           </Button>

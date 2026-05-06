@@ -31,9 +31,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto bg-[#131520] border border-[rgba(200,150,60,0.22)]">
       <CardHeader>
-        <CardTitle className="text-2xl text-center text-slate-900">
+        <CardTitle className="text-2xl text-center text-[#F0EAD6]">
           Sign In
         </CardTitle>
       </CardHeader>
@@ -46,7 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           )}
           
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-[#8A8070]">Email</Label>
             <Input
               id="email"
               type="email"
@@ -54,11 +54,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
               onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
+              className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
             />
           </div>
-          
+
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-[#8A8070]">Password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -67,6 +68,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={loading}
+                className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
               />
               <Button
                 type="button"
@@ -82,7 +84,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           
           <Button
             type="submit"
-            className="w-full bg-amber-600 hover:bg-amber-700"
+            className="w-full bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
             disabled={loading}
           >
             {loading ? 'Signing In...' : 'Sign In'}
@@ -93,17 +95,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
               type="button"
               variant="link"
               onClick={onForgotPassword}
-              className="text-sm text-amber-600 hover:text-amber-700"
+              className="text-sm text-[#C8963C] hover:text-[#D4A84A]"
             >
               Forgot your password?
             </Button>
-            <div className="text-sm text-slate-600">
+            <div className="text-sm text-[#8A8070]">
               Don't have an account?{' '}
               <Button
                 type="button"
                 variant="link"
                 onClick={onSwitchToSignup}
-                className="text-amber-600 hover:text-amber-700 p-0"
+                className="text-[#C8963C] hover:text-[#D4A84A] p-0"
               >
                 Sign up
               </Button>

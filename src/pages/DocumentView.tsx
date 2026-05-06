@@ -41,10 +41,10 @@ const DocumentView: React.FC = () => {
   if (loading) {
     return (
       <AppLayout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+        <div className="min-h-screen bg-[#0C0D11] p-4">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center py-8">
-              <p className="text-slate-600">Loading document...</p>
+              <p className="text-[#8A8070]">Loading document...</p>
             </div>
           </div>
         </div>
@@ -55,11 +55,11 @@ const DocumentView: React.FC = () => {
   if (error || !document) {
     return (
       <AppLayout>
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+        <div className="min-h-screen bg-[#0C0D11] p-4">
           <div className="container mx-auto max-w-4xl">
             <div className="text-center py-8">
-              <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-              <p className="text-slate-600 mb-4">{error || 'Document not found'}</p>
+              <FileText className="h-12 w-12 text-[#8A8070] mx-auto mb-4" />
+              <p className="text-[#8A8070] mb-4">{error || 'Document not found'}</p>
               <Button onClick={() => navigate('/')} variant="outline">
                 <ArrowLeft className="h-4 w-4 mr-2" />
                 Back to Home
@@ -73,7 +73,7 @@ const DocumentView: React.FC = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 p-4">
+      <div className="min-h-screen bg-[#0C0D11] p-4">
         <div className="container mx-auto max-w-4xl">
           <div className="mb-6">
             <Button 
@@ -93,7 +93,7 @@ const DocumentView: React.FC = () => {
                   <FileText className="h-6 w-6" />
                   <span>{document.title}</span>
                 </div>
-                <span className="text-sm font-mono bg-gray-100 px-3 py-1 rounded">
+                <span className="text-sm font-mono bg-[#111318] text-[#C8963C] px-3 py-1 rounded border border-[rgba(200,150,60,0.2)]">
                   {document.record_number}
                 </span>
               </CardTitle>
@@ -101,14 +101,14 @@ const DocumentView: React.FC = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4 text-gray-500" />
+                  <Calendar className="h-4 w-4 text-[#8A8070]" />
                   <span className="text-sm">
                     Recorded: {new Date(document.upload_date).toLocaleDateString()}
                   </span>
                 </div>
                 {document.submitter_name && (
                   <div className="flex items-center space-x-2">
-                    <User className="h-4 w-4 text-gray-500" />
+                    <User className="h-4 w-4 text-[#8A8070]" />
                     <span className="text-sm">Submitted by: {document.submitter_name}</span>
                   </div>
                 )}
@@ -117,13 +117,13 @@ const DocumentView: React.FC = () => {
               <div className="space-y-4">
                 <Button
                   onClick={() => window.open(getViewableDocumentUrl(document.file_path), '_blank')}
-                  className="w-full bg-amber-600 hover:bg-amber-700 text-white"
+                  className="w-full bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
                 >
                   <Download className="h-4 w-4 mr-2" />
                   View Document PDF
                 </Button>
                 
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="bg-[#111318] p-4 rounded-lg border border-[rgba(255,255,255,0.06)]">
                   <h3 className="font-semibold mb-2">Document Information</h3>
                   <div className="space-y-2 text-sm">
                     <div><strong>Record Number:</strong> {document.record_number}</div>

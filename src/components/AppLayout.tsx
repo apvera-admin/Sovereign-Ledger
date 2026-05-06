@@ -147,7 +147,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex flex-col">
+    <div className="min-h-screen bg-[#0C0D11] flex flex-col">
       <Header 
         currentView={currentView} 
         onViewChange={handleViewChange} 
