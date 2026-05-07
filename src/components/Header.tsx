@@ -131,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({
               className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
             >
               <img 
-                src="https://d64gsuwffb70l.cloudfront.net/6861f3c0c0cbadd2708caff8_1751650684187_b3ba2cc2.png" 
+                src="/logo.svg" 
                 alt="Sovereign Ledger Logo" 
                 className="h-12 sm:h-16 w-auto"
               />
