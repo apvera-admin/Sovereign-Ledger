@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
         <div className="max-w-4xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="text-xl font-serif font-bold mb-4">Sovereign Ledger</h3>
+              <img src="/Sovereign Ledger LOGO (400 x 100 px).svg" alt="Sovereign Ledger" className="h-10 w-auto mb-4" />
               <p className="text-[#B8B09A] text-sm">
                 A public notice and document recording platform built for free people, by free people.
               </p>
