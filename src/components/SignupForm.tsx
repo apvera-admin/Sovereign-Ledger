@@ -52,9 +52,9 @@ const SignupForm: React.FC<SignupFormProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto bg-[#131520] border border-[rgba(200,150,60,0.22)]">
       <CardHeader>
-        <CardTitle className="text-2xl text-center text-slate-900">
+        <CardTitle className="text-2xl text-center text-[#F0EAD6]">
           Create Account
         </CardTitle>
       </CardHeader>
@@ -67,7 +67,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
           )}
           
           <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="name" className="text-[#8A8070]">Full Name</Label>
             <Input
               id="name"
               type="text"
@@ -75,11 +75,12 @@ const SignupForm: React.FC<SignupFormProps> = ({
               onChange={(e) => setName(e.target.value)}
               required
               disabled={loading}
+              className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
             />
           </div>
-          
+
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-[#8A8070]">Email</Label>
             <Input
               id="email"
               type="email"
@@ -87,6 +88,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
               onChange={(e) => setEmail(e.target.value)}
               required
               disabled={loading}
+              className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
             />
           </div>
           
@@ -100,7 +102,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
                     <User className="h-4 w-4" />
                     Personal Account
                   </Label>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-[#8A8070]">
                     For individuals recording their own personal documents and certificates.
                   </p>
                 </div>
@@ -112,7 +114,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
                     <Building className="h-4 w-4" />
                     Trustee Account
                   </Label>
-                  <p className="text-sm text-slate-600">
+                  <p className="text-sm text-[#8A8070]">
                     For professionals recording documents on behalf of clients as a lawful agent or administrator.
                   </p>
                 </div>
@@ -121,7 +123,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-[#8A8070]">Password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -130,6 +132,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={loading}
+                className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
               />
               <Button
                 type="button"
@@ -144,7 +147,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
           </div>
           
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <Label htmlFor="confirmPassword" className="text-[#8A8070]">Confirm Password</Label>
             <div className="relative">
               <Input
                 id="confirmPassword"
@@ -153,6 +156,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 disabled={loading}
+                className="bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
               />
               <Button
                 type="button"
@@ -168,20 +172,20 @@ const SignupForm: React.FC<SignupFormProps> = ({
           
           <Button
             type="submit"
-            className="w-full bg-amber-600 hover:bg-amber-700"
+            className="w-full bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
             disabled={loading}
           >
             {loading ? 'Creating Account...' : 'Create Account'}
           </Button>
           
           <div className="text-center">
-            <div className="text-sm text-slate-600">
+            <div className="text-sm text-[#8A8070]">
               Already have an account?{' '}
               <Button
                 type="button"
                 variant="link"
                 onClick={onSwitchToLogin}
-                className="text-amber-600 hover:text-amber-700 p-0"
+                className="text-[#C8963C] hover:text-[#D4A84A] p-0"
               >
                 Sign in
               </Button>

@@ -94,7 +94,7 @@ const Login: React.FC = () => {
 
   return (
     <AppLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#0C0D11] flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {mode === 'login' ? (
             <LoginForm

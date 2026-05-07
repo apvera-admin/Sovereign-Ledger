@@ -122,25 +122,25 @@ const KnowledgeBase: React.FC = () => {
   }, {} as Record<string, FAQ[]>);
 
   return (
-    <div className="bg-gradient-to-br from-amber-50 to-orange-100 py-12">
+    <div className="bg-[#0C0D11] py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-serif font-bold text-slate-800 mb-4">
+            <h1 className="text-4xl font-serif font-bold text-[#F0EAD6] mb-4">
               Knowledge Base
             </h1>
-            <p className="text-lg text-slate-600 mb-6">
+            <p className="text-lg text-[#8A8070] mb-6">
               Find answers to common questions about Sovereign Ledger
             </p>
-            
+
             <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#8A8070] h-4 w-4" />
               <Input
                 type="text"
                 placeholder="Search FAQs..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full border-slate-300 focus:border-amber-500 focus:ring-amber-500"
+                className="pl-10 pr-4 py-2 w-full bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
               />
             </div>
           </div>
@@ -153,7 +153,7 @@ const KnowledgeBase: React.FC = () => {
               return (
                 <Card key={category} className="shadow-lg">
                   <CardHeader>
-                    <CardTitle className="text-xl font-semibold text-slate-800 flex items-center gap-2">
+                    <CardTitle className="text-xl font-semibold text-[#F0EAD6] flex items-center gap-2">
                       {categoryFAQs[0]?.icon}
                       {category}
                     </CardTitle>
@@ -162,10 +162,10 @@ const KnowledgeBase: React.FC = () => {
                     <Accordion type="single" collapsible className="w-full">
                       {categoryFAQs.map(faq => (
                         <AccordionItem key={faq.id} value={faq.id}>
-                          <AccordionTrigger className="text-left hover:text-amber-600">
+                          <AccordionTrigger className="text-left text-[#D4C9B0] hover:text-[#C8963C]">
                             {faq.question}
                           </AccordionTrigger>
-                          <AccordionContent className="text-slate-600 leading-relaxed">
+                          <AccordionContent className="text-[#8A8070] leading-relaxed">
                             {faq.answer}
                           </AccordionContent>
                         </AccordionItem>
@@ -179,23 +179,23 @@ const KnowledgeBase: React.FC = () => {
           
           {filteredFAQs.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-slate-500 text-lg">
+              <p className="text-[#8A8070] text-lg">
                 No FAQs found matching your search.
               </p>
             </div>
           )}
           
           <div className="mt-12 text-center">
-            <Card className="bg-amber-50 border-amber-200">
+            <Card className="bg-[#131520] border-[rgba(200,150,60,0.22)]">
               <CardContent className="pt-6">
-                <h3 className="text-lg font-semibold text-slate-800 mb-2">
+                <h3 className="text-lg font-semibold text-[#F0EAD6] mb-2">
                   Still have questions?
                 </h3>
-                <p className="text-slate-600 mb-4">
+                <p className="text-[#8A8070] mb-4">
                   Can't find what you're looking for? Contact our support team at{' '}
-                  <a 
+                  <a
                     href="mailto:support@asnconsulting.co"
-                    className="text-amber-600 hover:text-amber-700 font-medium underline"
+                    className="text-[#C8963C] hover:text-[#D4A84A] font-medium underline"
                   >
                     support@asnconsulting.co
                   </a>

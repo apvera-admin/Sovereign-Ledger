@@ -94,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-slate-200">
+    <header className="bg-[#0C0D11] border-b border-[rgba(200,150,60,0.12)]">
       <div className="container mx-auto px-4 py-4">
         {isMobile ? (
           <div className="flex flex-col items-center space-y-4">
@@ -143,7 +143,7 @@ const Header: React.FC<HeaderProps> = ({
                   <Button
                     variant={currentView === 'home' ? 'default' : 'ghost'}
                     onClick={handleHomeClick}
-                    className={`text-sm ${currentView === 'home' ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'hover:bg-amber-100 hover:text-amber-800'}`}
+                    className={`text-sm ${currentView === 'home' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                   >
                     Home
                   </Button>
@@ -152,7 +152,7 @@ const Header: React.FC<HeaderProps> = ({
                 <Button
                   variant={currentView === 'search' ? 'default' : 'ghost'}
                   onClick={handleSearchClick}
-                  className={`text-sm ${currentView === 'search' ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'hover:bg-amber-100 hover:text-amber-800'}`}
+                  className={`text-sm ${currentView === 'search' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                 >
                   <Search className="mr-2 h-4 w-4" />
                   Search
@@ -161,7 +161,7 @@ const Header: React.FC<HeaderProps> = ({
                 <Button
                   variant={currentView === 'knowledge-base' ? 'default' : 'ghost'}
                   onClick={handleKnowledgeBaseClick}
-                  className={`text-sm ${currentView === 'knowledge-base' ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'hover:bg-amber-100 hover:text-amber-800'}`}
+                  className={`text-sm ${currentView === 'knowledge-base' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                 >
                   <Book className="mr-2 h-4 w-4" />
                   FAQ
@@ -174,7 +174,7 @@ const Header: React.FC<HeaderProps> = ({
                         <Button
                           variant={currentView === 'dashboard' ? 'default' : 'ghost'}
                           onClick={handleDashboardClick}
-                          className={`text-sm ${currentView === 'dashboard' ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'hover:bg-amber-100 hover:text-amber-800'}`}
+                          className={`text-sm ${currentView === 'dashboard' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                         >
                           <FileText className="mr-2 h-4 w-4" />
                           Dashboard
@@ -182,7 +182,7 @@ const Header: React.FC<HeaderProps> = ({
                         <Button
                           variant={currentView === 'upload' ? 'default' : 'ghost'}
                           onClick={handleRecordClick}
-                          className={`text-sm ${currentView === 'upload' ? 'bg-amber-600 hover:bg-amber-700 text-white' : 'hover:bg-amber-100 hover:text-amber-800'}`}
+                          className={`text-sm ${currentView === 'upload' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                         >
                           <FileText className="mr-2 h-4 w-4" />
                           Record
@@ -194,7 +194,7 @@ const Header: React.FC<HeaderProps> = ({
                         <Button
                           variant={currentView === 'trustee-upload' ? 'default' : 'ghost'}
                           onClick={handleTrusteeUploadClick}
-                          className={`text-sm ${currentView === 'trustee-upload' ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-800'}`}
+                          className={`text-sm ${currentView === 'trustee-upload' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                         >
                           <Shield className="mr-2 h-4 w-4" />
                           Upload
@@ -202,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({
                         <Button
                           variant={currentView === 'trustee-dashboard' ? 'default' : 'ghost'}
                           onClick={handleTrusteeDashboardClick}
-                          className={`text-sm ${currentView === 'trustee-dashboard' ? 'bg-blue-600 hover:bg-blue-700 text-white' : 'hover:bg-blue-100 hover:text-blue-800'}`}
+                          className={`text-sm ${currentView === 'trustee-dashboard' ? 'bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11]' : 'text-[#8A8070] hover:bg-[rgba(200,150,60,0.1)] hover:text-[#C8963C]'}`}
                         >
                           <Users className="mr-2 h-4 w-4" />
                           Dashboard

@@ -160,7 +160,7 @@ export const TrusteeUploadForm: React.FC<TrusteeUploadFormProps> = ({
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto bg-[#131520] border border-[rgba(200,150,60,0.22)]">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <FileText className="h-5 w-5" />
@@ -273,7 +273,7 @@ export const TrusteeUploadForm: React.FC<TrusteeUploadFormProps> = ({
           <Button
             type="submit"
             disabled={!file || !clientName || !documentTitle || isUploading}
-            className="w-full"
+            className="w-full bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
           >
             {isUploading ? (
               <div className="flex items-center gap-2">

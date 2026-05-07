@@ -136,7 +136,7 @@ const UploadForm: React.FC<UploadFormProps> = ({ onUploadComplete }) => {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto bg-[#131520] border border-[rgba(200,150,60,0.22)]">
       <CardHeader className="pb-4">
         <CardTitle className="flex items-center space-x-2 text-lg sm:text-xl">
           <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -146,45 +146,45 @@ const UploadForm: React.FC<UploadFormProps> = ({ onUploadComplete }) => {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title" className="text-sm font-medium">Document Title *</Label>
-            <Input 
-              id="title" 
-              value={title} 
-              onChange={(e) => setTitle(e.target.value)} 
-              placeholder="Enter document title" 
-              required 
-              className="w-full" 
+            <Label htmlFor="title" className="text-sm font-medium text-[#8A8070]">Document Title *</Label>
+            <Input
+              id="title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter document title"
+              required
+              className="w-full bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
               disabled={uploading}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="submitter" className="text-sm font-medium">Submitter Name *</Label>
-            <Input 
-              id="submitter" 
-              value={submitterName} 
-              onChange={(e) => setSubmitterName(e.target.value)} 
-              placeholder="Your name" 
-              required 
-              className="w-full" 
+            <Label htmlFor="submitter" className="text-sm font-medium text-[#8A8070]">Submitter Name *</Label>
+            <Input
+              id="submitter"
+              value={submitterName}
+              onChange={(e) => setSubmitterName(e.target.value)}
+              placeholder="Your name"
+              required
+              className="w-full bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6] focus:border-[rgba(200,150,60,0.5)]"
               disabled={uploading}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="file" className="text-sm font-medium">PDF Document *</Label>
-            <Input 
-              id="file" 
-              type="file" 
-              accept=".pdf" 
-              onChange={handleFileChange} 
-              required 
-              className="w-full" 
+            <Label htmlFor="file" className="text-sm font-medium text-[#8A8070]">PDF Document *</Label>
+            <Input
+              id="file"
+              type="file"
+              accept=".pdf"
+              onChange={handleFileChange}
+              required
+              className="w-full bg-[#111318] border-[rgba(200,150,60,0.18)] text-[#F0EAD6]"
               disabled={uploading}
             />
           </div>
-          <Button 
-            type="submit" 
-            disabled={uploading} 
-            className="w-full mt-6 bg-amber-600 hover:bg-amber-700 text-white"
+          <Button
+            type="submit"
+            disabled={uploading}
+            className="w-full mt-6 bg-[#C8963C] hover:bg-[#D4A84A] text-[#0C0D11] font-bold"
           >
             <Upload className="h-4 w-4 mr-2" />
             {uploading ? 'Recording...' : 'Record Document'}

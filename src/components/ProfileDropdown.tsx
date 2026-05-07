@@ -58,7 +58,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               src={profileImage || ''} 
               alt={displayName} 
             />
-            <AvatarFallback className="bg-slate-900 text-white">
+            <AvatarFallback className="bg-[#131520] text-[#C8963C]">
               {getInitials(displayName)}
             </AvatarFallback>
           </Avatar>

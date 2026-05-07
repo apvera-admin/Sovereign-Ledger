@@ -191,8 +191,8 @@ const DocumentList: React.FC<DocumentListProps> = ({
   if (!documents || documents.length === 0) {
     return (
       <div className="text-center py-8">
-        <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
-        <p className="text-slate-600">No documents found</p>
+        <FileText className="h-12 w-12 text-[#8A8070] mx-auto mb-4" />
+        <p className="text-[#8A8070]">No documents found</p>
       </div>
     );
   }
@@ -211,7 +211,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
                   <FileText className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                   <span className="text-sm sm:text-base truncate">{doc.title}</span>
                 </div>
-                <span className="text-xs sm:text-sm font-mono bg-gray-100 px-2 py-1 rounded self-start">
+                <span className="text-xs sm:text-sm font-mono bg-[#111318] text-[#C8963C] px-2 py-1 rounded self-start border border-[rgba(200,150,60,0.2)]">
                   {doc.record_number}
                 </span>
               </CardTitle>
@@ -219,14 +219,14 @@ const DocumentList: React.FC<DocumentListProps> = ({
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 <div className="flex items-center space-x-2">
-                  <Calendar className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                  <Calendar className="h-4 w-4 text-[#8A8070] flex-shrink-0" />
                   <span className="text-sm">
                     {new Date(doc.upload_date).toLocaleDateString()}
                   </span>
                 </div>
                 {doc.submitter_name && (
                   <div className="flex items-center space-x-2">
-                    <User className="h-4 w-4 text-gray-500 flex-shrink-0" />
+                    <User className="h-4 w-4 text-[#8A8070] flex-shrink-0" />
                     <span className="text-sm truncate">{doc.submitter_name}</span>
                   </div>
                 )}
@@ -235,7 +235,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
               {showFolderActions && canPerformOwnerActions && (
                 <div className="mb-4">
                   <div className="flex items-center space-x-2">
-                    <FolderOpen className="h-4 w-4 text-gray-500" />
+                    <FolderOpen className="h-4 w-4 text-[#8A8070]" />
                     <Select
                       value={doc.folder_id || 'no-folder'}
                       onValueChange={(value) => handleFolderChange(doc.id, value)}
@@ -254,7 +254,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
                       </SelectContent>
                     </Select>
                     {movingDocument === doc.id && (
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-600" />
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#C8963C]" />
                     )}
                   </div>
                 </div>
@@ -265,7 +265,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
                   variant="outline"
                   size="sm"
                   onClick={() => handleViewDocument(doc)}
-                  className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                  className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                 >
                   <Download className="h-4 w-4 mr-2" />
                   Open PDF
@@ -275,7 +275,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
                     variant="outline"
                     size="sm"
                     onClick={() => onViewCertificate(doc)}
-                    className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                    className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                   >
                     View Certificate
                   </Button>
@@ -286,7 +286,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
                       variant="outline"
                       size="sm"
                       onClick={() => handleShare(doc)}
-                      className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                      className="border-[rgba(200,150,60,0.4)] text-[#C8963C] hover:bg-[rgba(200,150,60,0.1)]"
                     >
                       <Share2 className="h-4 w-4 mr-2" />
                       Share
