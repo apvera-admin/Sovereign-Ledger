@@ -51,7 +51,7 @@ const Login: React.FC = () => {
           data: {
             full_name: name,
           },
-          emailRedirectTo: undefined,
+          emailRedirectTo: undefined, // Disable email confirmation
         },
       });
       
@@ -73,6 +73,7 @@ const Login: React.FC = () => {
           description: 'Account created successfully!',
         });
         
+        // Automatically redirect to dashboard
         navigate('/dashboard');
       }
     } catch (err: any) {
