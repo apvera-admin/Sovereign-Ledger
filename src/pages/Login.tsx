@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppLayout from '@/components/AppLayout';
 import LoginForm from '@/components/LoginForm';
@@ -6,6 +6,7 @@ import SignupForm from '@/components/SignupForm';
 import { supabase } from '@/lib/supabase';
 import { createUserProfile } from '@/utils/supabaseUtils';
 import { useToast } from '@/hooks/use-toast';
+import { useAppContext } from '@/contexts/AppContext';
 
 const Login: React.FC = () => {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
@@ -13,6 +14,14 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAppContext();
+
+  // If user is already authenticated (e.g. auth succeeded after timeout), redirect immediately
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleLogin = async (email: string, password: string) => {
     setLoading(true);
