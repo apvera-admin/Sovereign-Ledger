@@ -64,23 +64,55 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const isTrustee = userProfile?.user_role === 'trustee';
 
-  const fetchUserProfile = useCallback(async (userId: string) => {
+  const fetchUserProfile = useCallback(async (userId: string, authUser?: User) => {
     if (!mountedRef.current) return;
-    
+
     try {
       const { data, error } = await supabase
         .from('user_profiles')
         .select('*')
         .eq('user_id', userId)
         .single();
-      
-      if (error && error.code !== 'PGRST116') {
+
+      if (error && error.code === 'PGRST116') {
+        // No profile row — auto-create one for accounts predating the profiles table
+        const email = authUser?.email || '';
+        const fullName = authUser?.user_metadata?.full_name || '';
+        const { data: newProfile } = await supabase
+          .from('user_profiles')
+          .upsert({
+            user_id: userId,
+            email,
+            full_name: fullName,
+            display_name: fullName,
+            user_role: 'individual',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'user_id' })
+          .select()
+          .single();
+        if (newProfile && mountedRef.current) {
+          setUserProfile(newProfile);
+        }
+        return;
+      }
+
+      if (error) {
         console.error('Error fetching user profile:', error);
         return;
       }
-      
+
       if (data && mountedRef.current) {
-        setUserProfile(data);
+        // Fix NULL user_role for profiles created before the role column existed
+        if (!data.user_role) {
+          await supabase
+            .from('user_profiles')
+            .update({ user_role: 'individual', updated_at: new Date().toISOString() })
+            .eq('user_id', userId);
+          setUserProfile({ ...data, user_role: 'individual' });
+        } else {
+          setUserProfile(data);
+        }
       }
     } catch (error) {
       console.error('Error fetching user profile:', error);
@@ -117,7 +149,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (mountedRef.current) {
           setUser(session?.user ?? null);
           if (session?.user) {
-            await fetchUserProfile(session.user.id);
+            await fetchUserProfile(session.user.id, session.user);
           }
           authInitializedRef.current = true;
         }
@@ -139,7 +171,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setCurrentView('home');
       } else if (session?.user) {
         setUser(session.user);
-        await fetchUserProfile(session.user.id);
+        await fetchUserProfile(session.user.id, session.user);
       }
     });
 
