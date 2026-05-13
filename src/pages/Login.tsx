@@ -17,22 +17,20 @@ const Login: React.FC = () => {
   const handleLogin = async (email: string, password: string) => {
     setLoading(true);
     setError('');
-    
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
-      if (error) {
-        throw error;
-      }
-      
-      toast({
-        title: 'Success',
-        description: 'Signed in successfully!',
-      });
-      
+      const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Connection timed out. The server may be unavailable — please try again in a moment.')), 12000)
+      );
+
+      const { error } = await Promise.race([
+        supabase.auth.signInWithPassword({ email, password }),
+        timeout
+      ]) as Awaited<ReturnType<typeof supabase.auth.signInWithPassword>>;
+
+      if (error) throw error;
+
+      toast({ title: 'Success', description: 'Signed in successfully!' });
       navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'An error occurred during login');
@@ -53,7 +51,7 @@ const Login: React.FC = () => {
           data: {
             full_name: name,
           },
-          emailRedirectTo: undefined, // Disable email confirmation
+          emailRedirectTo: undefined,
         },
       });
       
@@ -75,7 +73,6 @@ const Login: React.FC = () => {
           description: 'Account created successfully!',
         });
         
-        // Automatically redirect to dashboard
         navigate('/dashboard');
       }
     } catch (err: any) {
