@@ -126,16 +126,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [user, fetchUserProfile]);
 
   const logout = useCallback(async () => {
-    try {
-      await supabase.auth.signOut();
-      if (mountedRef.current) {
-        setUser(null);
-        setUserProfile(null);
-        setCurrentView('home');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
+    // Clear state immediately so the UI responds even if signOut is slow/hangs
+    if (mountedRef.current) {
+      setUser(null);
+      setUserProfile(null);
+      setCurrentView('home');
     }
+    supabase.auth.signOut().catch(err => console.error('SignOut error:', err));
   }, []);
 
   useEffect(() => {

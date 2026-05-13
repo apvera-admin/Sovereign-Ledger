@@ -40,25 +40,29 @@ const Dashboard: React.FC = () => {
     if (!user || !mountedRef.current || loadingRef.current) {
       return;
     }
-    
+
     if (documentsLoadedRef.current && !force) {
       return;
     }
-    
+
     loadingRef.current = true;
     setLoadingDocuments(true);
     setError(null);
-    
+
     try {
-      const { data, error } = await supabase
+      const timeout = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out. Check your connection and try again.')), 12000)
+      );
+
+      const query = supabase
         .from('documents')
         .select('*')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (error) {
-        throw error;
-      }
+      const { data, error } = await Promise.race([query, timeout]) as Awaited<typeof query>;
+
+      if (error) throw error;
 
       if (mountedRef.current) {
         setMyDocuments(data || []);
@@ -67,7 +71,7 @@ const Dashboard: React.FC = () => {
     } catch (error) {
       console.error('Error loading documents:', error);
       if (mountedRef.current) {
-        setError('Failed to load documents. Please try again.');
+        setError(error instanceof Error ? error.message : 'Failed to load documents. Please try again.');
       }
     } finally {
       if (mountedRef.current) {
