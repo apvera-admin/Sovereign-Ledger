@@ -20,7 +20,7 @@ const Login: React.FC = () => {
 
     try {
       const timeout = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('Connection timed out. The server may be unavailable — please try again in a moment.')), 12000)
+        setTimeout(() => reject(new Error('Connection timed out. The server may be unavailable — please try again in a moment.')), 30000)
       );
 
       const { error } = await Promise.race([
