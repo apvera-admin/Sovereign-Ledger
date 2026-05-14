@@ -51,7 +51,7 @@ const Dashboard: React.FC = () => {
 
     try {
       const timeout = new Promise<never>((_, reject) =>
-        setTimeout(() => reject(new Error('Request timed out. Check your connection and try again.')), 12000)
+        setTimeout(() => reject(new Error('Request timed out. Check your connection and try again.')), 35000)
       );
 
       const query = supabase
@@ -346,6 +346,7 @@ const Dashboard: React.FC = () => {
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#C8963C] mx-auto mb-4" />
                   <p className="text-[#8A8070]">Loading documents...</p>
+                  <p className="text-[#8A8070] text-xs mt-2">First load may take up to 30 seconds</p>
                 </div>
               ) : myDocuments.length === 0 ? (
                 <div className="text-center py-8">
