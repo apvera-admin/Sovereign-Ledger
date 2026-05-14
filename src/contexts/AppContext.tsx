@@ -60,7 +60,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const mountedRef = useRef(true);
-  const authInitializedRef = useRef(false);
 
   const isTrustee = userProfile?.user_role === 'trustee';
 
@@ -137,38 +136,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     mountedRef.current = true;
-    
-    const initializeAuth = async () => {
-      if (authInitializedRef.current) return;
-      
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (mountedRef.current) {
-          setUser(session?.user ?? null);
-          if (session?.user) {
-            await fetchUserProfile(session.user.id, session.user);
-          }
-          authInitializedRef.current = true;
-        }
-      } catch (error) {
-        console.error('Error getting session:', error);
-      }
-    };
 
-    initializeAuth();
-
+    // Only set user state from onAuthStateChange so we never trigger database
+    // queries before the Supabase client has finished its internal _initialize
+    // (which validates/refreshes the token). INITIAL_SESSION fires once that is done.
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!mountedRef.current) return;
-      
-      console.log('Auth state changed:', event);
-      
+
       if (event === 'SIGNED_OUT') {
         setUser(null);
         setUserProfile(null);
         setCurrentView('home');
-      } else if (session?.user) {
-        setUser(session.user);
-        await fetchUserProfile(session.user.id, session.user);
+      } else if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        if (session?.user) {
+          setUser(session.user);
+          if (event !== 'TOKEN_REFRESHED') {
+            await fetchUserProfile(session.user.id, session.user);
+          }
+        } else if (event === 'INITIAL_SESSION') {
+          setUser(null);
+        }
       }
     });
 
