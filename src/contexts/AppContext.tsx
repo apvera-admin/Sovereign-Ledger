@@ -28,6 +28,7 @@ interface AppContextType {
   setShowLogin: (show: boolean) => void;
   showSignup: boolean;
   setShowSignup: (show: boolean) => void;
+  authInitialized: boolean;
 }
 
 const defaultAppContext: AppContextType = {
@@ -46,6 +47,7 @@ const defaultAppContext: AppContextType = {
   setShowLogin: () => {},
   showSignup: false,
   setShowSignup: () => {},
+  authInitialized: false,
 };
 
 const AppContext = createContext<AppContextType>(defaultAppContext);
@@ -59,6 +61,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [currentView, setCurrentView] = useState<'home' | 'upload' | 'search' | 'certificate' | 'dashboard' | 'profile' | 'trustee-upload' | 'trustee-dashboard' | 'knowledge-base'>('home');
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [authInitialized, setAuthInitialized] = useState(false);
   const mountedRef = useRef(true);
 
   const isTrustee = userProfile?.user_role === 'trustee';
@@ -147,6 +150,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setUser(null);
         setUserProfile(null);
         setCurrentView('home');
+        setAuthInitialized(true);
       } else if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
         if (session?.user) {
           setUser(session.user);
@@ -155,6 +159,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           }
         } else if (event === 'INITIAL_SESSION') {
           setUser(null);
+        }
+        if (event === 'INITIAL_SESSION') {
+          setAuthInitialized(true);
         }
       }
     });
@@ -187,6 +194,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setShowLogin,
         showSignup,
         setShowSignup,
+        authInitialized,
       }}
     >
       {children}
