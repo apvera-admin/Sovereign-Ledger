@@ -9,7 +9,7 @@ import { Eye, EyeOff } from 'lucide-react';
 interface LoginFormProps {
   onLogin: (email: string, password: string) => Promise<void>;
   onSwitchToSignup: () => void;
-  onForgotPassword: () => void;
+  onForgotPassword: (email: string) => void;
   loading?: boolean;
   error?: string;
 }
@@ -94,7 +94,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             <Button
               type="button"
               variant="link"
-              onClick={onForgotPassword}
+              onClick={() => onForgotPassword(email)}
               className="text-sm text-[#C8963C] hover:text-[#D4A84A]"
             >
               Forgot your password?
