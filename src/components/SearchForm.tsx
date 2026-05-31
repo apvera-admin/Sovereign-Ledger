@@ -26,16 +26,28 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearchResults }) => {
 
     setSearching(true);
     try {
+      console.log('Starting search with params:', { recordNumber, title, name });
       const documents = await searchDocuments({
         recordNumber: recordNumber.trim() || undefined,
         title: title.trim() || undefined,
         name: name.trim() || undefined
       });
+      console.log('Search returned:', documents.length, 'documents');
       onSearchResults(documents);
-      toast({ title: 'Success', description: `Found ${documents.length} document(s)` });
+      
+      if (documents.length === 0) {
+        toast({ title: 'No Results', description: 'No documents found matching your criteria' });
+      } else {
+        toast({ title: 'Success', description: `Found ${documents.length} document(s)` });
+      }
     } catch (error) {
       console.error('Search error:', error);
-      toast({ title: 'Error', description: 'Search failed. Please try again.', variant: 'destructive' });
+      toast({ 
+        title: 'Error', 
+        description: error instanceof Error ? error.message : 'Search failed. Please try again.', 
+        variant: 'destructive' 
+      });
+      onSearchResults([]);
     } finally {
       setSearching(false);
     }

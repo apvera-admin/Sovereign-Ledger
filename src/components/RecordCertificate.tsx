@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { FileText, Calendar, User, Hash, Printer, ArrowLeft } from 'lucide-react';
+import { FileText, Calendar, User, Hash, Printer, ArrowLeft, Globe, Lock } from 'lucide-react';
 
 interface RecordCertificateProps {
   document: any;
@@ -101,6 +102,30 @@ const RecordCertificate: React.FC<RecordCertificateProps> = ({ document, onBack 
               <div className="min-w-0 flex-1">
                 <p className="font-semibold text-[#D4C9B0] text-sm sm:text-base">Submitted By:</p>
                 <p className="text-base sm:text-lg text-[#F0EAD6] break-words">{submitterName}</p>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="flex items-start space-x-3">
+              {document?.is_public ? (
+                <Globe className="h-5 w-5 sm:h-6 sm:w-6 text-green-600 mt-1 flex-shrink-0" />
+              ) : (
+                <Lock className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 mt-1 flex-shrink-0" />
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-gray-700 text-sm sm:text-base">Record Status:</p>
+                {document?.is_public ? (
+                  <Badge className="bg-green-100 text-green-700 hover:bg-green-100 text-sm">
+                    <Globe className="h-3 w-3 mr-1" />
+                    Public Record
+                  </Badge>
+                ) : (
+                  <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-sm">
+                    <Lock className="h-3 w-3 mr-1" />
+                    Private Record
+                  </Badge>
+                )}
               </div>
             </div>
           </div>

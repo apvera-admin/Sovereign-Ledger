@@ -47,3 +47,46 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+
+/* Print styles - only show the certificate */
+@media print {
+  /* Hide everything by default */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Show only the certificate card and its contents */
+  .print-certificate,
+  .print-certificate * {
+    visibility: visible !important;
+  }
+
+  .print-certificate {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+
+  /* Hide header, footer, nav, sidebar, buttons marked as print:hidden */
+  header, footer, nav,
+  [data-sidebar],
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Remove backgrounds and shadows for cleaner print */
+  .print-certificate {
+    background: white !important;
+  }
+
+  /* Ensure it fits on one page */
+  @page {
+    margin: 0.5in;
+    size: letter portrait;
+  }
+}

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Upload, FileText, User, Mail, StickyNote, Folder } from 'lucide-react';
@@ -37,6 +38,7 @@ export const TrusteeUploadForm: React.FC<TrusteeUploadFormProps> = ({
   const [showCertificate, setShowCertificate] = useState(false);
   const [uploadedDocument, setUploadedDocument] = useState<any>(null);
   const [foldersLoaded, setFoldersLoaded] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);
   const { user, userProfile } = useAppContext();
   const { toast } = useToast();
 
@@ -94,6 +96,7 @@ export const TrusteeUploadForm: React.FC<TrusteeUploadFormProps> = ({
     
     try {
       console.log('Starting trustee upload process...');
+      console.log('isPublic state:', isPublic);
       const result = await uploadDocument({
         file,
         title: documentTitle,
@@ -103,7 +106,8 @@ export const TrusteeUploadForm: React.FC<TrusteeUploadFormProps> = ({
         isTrusteeUpload: true,
         trusteeId: user.id,
         trusteeName: userProfile?.display_name || userProfile?.full_name || user.email || 'Unknown Trustee',
-        folderId: folderId || undefined
+        folderId: folderId || undefined,
+        isPublic: isPublic
       });
 
       console.log('Trustee upload result:', result);
@@ -268,6 +272,25 @@ export const TrusteeUploadForm: React.FC<TrusteeUploadFormProps> = ({
                 Selected: {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
               </p>
             )}
+          </div>
+
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">Record Visibility:</Label>
+            <RadioGroup
+              value={isPublic ? 'public' : 'private'}
+              onValueChange={(value) => setIsPublic(value === 'public')}
+              className="flex flex-col space-y-2"
+              disabled={isUploading}
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="private" id="trustee-private" />
+                <Label htmlFor="trustee-private" className="font-normal cursor-pointer">Private (default)</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="public" id="trustee-public" />
+                <Label htmlFor="trustee-public" className="font-normal cursor-pointer">Public (searchable)</Label>
+              </div>
+            </RadioGroup>
           </div>
 
           <Button

@@ -9,6 +9,15 @@ const Index: React.FC = () => {
   const { currentView, user, authInitialized } = useAppContext();
   const navigate = useNavigate();
 
+  // Ensure recovery links that land on "/" are routed to reset page.
+  React.useEffect(() => {
+    const hash = window.location.hash || '';
+    const isRecoveryLink = hash.includes('type=recovery');
+    if (isRecoveryLink) {
+      window.location.replace(`/reset-password${hash}`);
+    }
+  }, []);
+
   // Redirect to dashboard if user is logged in
   React.useEffect(() => {
     if (authInitialized && user && currentView === 'home') {

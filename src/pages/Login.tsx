@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabase';
 import { createUserProfile } from '@/utils/supabaseUtils';
 import { useToast } from '@/hooks/use-toast';
 import { useAppContext } from '@/contexts/AppContext';
+import { getPasswordResetHelp } from '@/utils/passwordResetHelp';
 
 const Login: React.FC = () => {
   const [mode, setMode] = useState<'login' | 'signup'>('login');
@@ -92,11 +93,39 @@ const Login: React.FC = () => {
     }
   };
 
-  const handleForgotPassword = async () => {
-    toast({
-      title: 'Password Reset',
-      description: 'Password reset functionality coming soon!',
-    });
+  const handleForgotPassword = async (email: string) => {
+    if (!email.trim()) {
+      toast({
+        title: 'Email required',
+        description: 'Enter the account email first, then click Forgot your password.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      const redirectTo = `${window.location.origin}/reset-password`;
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo,
+      });
+
+      if (resetError) {
+        throw resetError;
+      }
+
+      toast({
+        title: 'Reset email sent',
+        description: `A password setup link was sent to ${email.trim()}.`,
+      });
+    } catch (err: any) {
+      console.error('Password reset email failed:', err);
+      const hint = getPasswordResetHelp(err?.message);
+      toast({
+        title: 'Could not send reset email',
+        description: hint || err?.message || 'Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (

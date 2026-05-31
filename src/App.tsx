@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import DocumentView from "./pages/DocumentView";
 import KnowledgeBasePage from "./pages/KnowledgeBase";
+import ResetPassword from "./pages/ResetPassword";
 import ProfilePage from "@/components/ProfilePage";
 import { useAppContext } from "@/contexts/AppContext";
 
@@ -42,6 +43,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/profile" element={<ProfileRoute />} />
               <Route path="/knowledge-base" element={<KnowledgeBasePage />} />

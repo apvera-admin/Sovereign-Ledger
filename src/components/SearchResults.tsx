@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Calendar, User } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Download, Calendar, User, Globe, Lock } from 'lucide-react';
 import { getDocumentUrl } from '@/utils/supabaseUtils';
 import { useAppContext } from '@/contexts/AppContext';
 
@@ -29,9 +30,20 @@ const SearchResults: React.FC<SearchResultsProps> = ({ results, onViewCertificat
           <Card key={doc.id} className="w-full">
             <CardHeader className="pb-3">
               <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 gap-2">
                   <FileText className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                   <span className="text-sm sm:text-base truncate">{doc.title}</span>
+                  {doc.is_public ? (
+                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 text-xs">
+                      <Globe className="h-3 w-3 mr-1" />
+                      Public
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-xs">
+                      <Lock className="h-3 w-3 mr-1" />
+                      Private
+                    </Badge>
+                  )}
                 </div>
                 <span className="text-xs sm:text-sm font-mono bg-[#111318] text-[#C8963C] px-2 py-1 rounded self-start border border-[rgba(200,150,60,0.2)]">
                   {doc.record_number}

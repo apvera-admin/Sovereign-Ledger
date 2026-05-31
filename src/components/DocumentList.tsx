@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, Download, Calendar, User, Trash2, Share2, FolderOpen } from 'lucide-react';
+import { FileText, Download, Calendar, User, Trash2, Share2, FolderOpen, Lock, Globe } from 'lucide-react';
 import { getViewableDocumentUrl } from '@/utils/supabaseUtils';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -30,6 +31,7 @@ const DocumentList: React.FC<DocumentListProps> = ({
   const [folders, setFolders] = useState<any[]>([]);
   const [movingDocument, setMovingDocument] = useState<string | null>(null);
   const [deletingDocument, setDeletingDocument] = useState<string | null>(null);
+  const [updatingVisibilityDocument, setUpdatingVisibilityDocument] = useState<string | null>(null);
   const mountedRef = useRef(true);
   const operationInProgressRef = useRef<Set<string>>(new Set());
 
@@ -174,6 +176,47 @@ const DocumentList: React.FC<DocumentListProps> = ({
     }
   };
 
+  const handleVisibilityToggle = async (documentId: string, currentlyPublic: boolean) => {
+    if (operationInProgressRef.current.has(documentId)) return;
+
+    operationInProgressRef.current.add(documentId);
+    setUpdatingVisibilityDocument(documentId);
+
+    try {
+      const { error: updateError } = await supabase
+        .from('documents')
+        .update({ is_public: !currentlyPublic })
+        .eq('id', documentId);
+
+      if (updateError) throw updateError;
+
+      if (mountedRef.current) {
+        toast({
+          title: 'Visibility updated',
+          description: !currentlyPublic
+            ? 'Document is now public and searchable.'
+            : 'Document is now private.',
+        });
+
+        if (onDocumentDeleted) {
+          onDocumentDeleted();
+        }
+      }
+    } catch (error) {
+      console.error('Error updating document visibility:', error);
+      if (mountedRef.current) {
+        toast({
+          title: 'Error',
+          description: 'Failed to update document visibility.',
+          variant: 'destructive',
+        });
+      }
+    } finally {
+      operationInProgressRef.current.delete(documentId);
+      setUpdatingVisibilityDocument(null);
+    }
+  };
+
   const handleViewDocument = (doc: any) => {
     try {
       const url = getViewableDocumentUrl(doc.file_path);
@@ -207,9 +250,20 @@ const DocumentList: React.FC<DocumentListProps> = ({
           <Card key={doc.id} className="w-full">
             <CardHeader className="pb-3">
               <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 gap-2">
                   <FileText className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                   <span className="text-sm sm:text-base truncate">{doc.title}</span>
+                  {doc.is_public ? (
+                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 text-xs">
+                      <Globe className="h-3 w-3 mr-1" />
+                      Public
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-xs">
+                      <Lock className="h-3 w-3 mr-1" />
+                      Private
+                    </Badge>
+                  )}
                 </div>
                 <span className="text-xs sm:text-sm font-mono bg-[#111318] text-[#C8963C] px-2 py-1 rounded self-start border border-[rgba(200,150,60,0.2)]">
                   {doc.record_number}
@@ -282,6 +336,22 @@ const DocumentList: React.FC<DocumentListProps> = ({
                 )}
                 {canPerformOwnerActions && (
                   <>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleVisibilityToggle(doc.id, Boolean(doc.is_public))}
+                      disabled={updatingVisibilityDocument === doc.id}
+                      className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                    >
+                      {updatingVisibilityDocument === doc.id ? (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-amber-600 mr-2" />
+                      ) : doc.is_public ? (
+                        <Lock className="h-4 w-4 mr-2" />
+                      ) : (
+                        <Globe className="h-4 w-4 mr-2" />
+                      )}
+                      {doc.is_public ? 'Make Private' : 'Make Public'}
+                    </Button>
                     <Button
                       variant="outline"
                       size="sm"

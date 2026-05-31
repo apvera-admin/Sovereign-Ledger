@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import AppLayout from '@/components/AppLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download, Calendar, User, ArrowLeft } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { FileText, Download, Calendar, User, ArrowLeft, Globe, Lock } from 'lucide-react';
 import { searchDocuments, getViewableDocumentUrl } from '@/utils/supabaseUtils';
 import { useNavigate } from 'react-router-dom';
 
@@ -89,9 +90,20 @@ const DocumentView: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 gap-2">
                   <FileText className="h-6 w-6" />
                   <span>{document.title}</span>
+                  {document.is_public ? (
+                    <Badge className="bg-green-100 text-green-700 hover:bg-green-100 text-xs">
+                      <Globe className="h-3 w-3 mr-1" />
+                      Public
+                    </Badge>
+                  ) : (
+                    <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-xs">
+                      <Lock className="h-3 w-3 mr-1" />
+                      Private
+                    </Badge>
+                  )}
                 </div>
                 <span className="text-sm font-mono bg-[#111318] text-[#C8963C] px-3 py-1 rounded border border-[rgba(200,150,60,0.2)]">
                   {document.record_number}
@@ -129,6 +141,20 @@ const DocumentView: React.FC = () => {
                     <div><strong>Record Number:</strong> {document.record_number}</div>
                     <div><strong>Title:</strong> {document.title}</div>
                     <div><strong>Upload Date:</strong> {new Date(document.upload_date).toLocaleString()}</div>
+                    <div className="flex items-center gap-2">
+                      <strong>Status:</strong> 
+                      {document.is_public ? (
+                        <Badge className="bg-green-100 text-green-700 hover:bg-green-100 text-xs">
+                          <Globe className="h-3 w-3 mr-1" />
+                          Public
+                        </Badge>
+                      ) : (
+                        <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 text-xs">
+                          <Lock className="h-3 w-3 mr-1" />
+                          Private
+                        </Badge>
+                      )}
+                    </div>
                     {document.submitter_name && (
                       <div><strong>Submitter:</strong> {document.submitter_name}</div>
                     )}
