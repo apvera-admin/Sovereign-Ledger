@@ -84,6 +84,21 @@
     background: white !important;
   }
 
+  /* The on-screen certificate uses near-white text on a dark card. On paper the
+     dark card background is dropped, so force dark text and transparent inner
+     backgrounds, otherwise the page prints effectively blank. */
+  .print-certificate,
+  .print-certificate * {
+    color: #1a1a1a !important;
+    background-color: transparent !important;
+    border-color: #ccc !important;
+    text-shadow: none !important;
+  }
+
+  .print-certificate {
+    background-color: white !important;
+  }
+
   /* Ensure it fits on one page */
   @page {
     margin: 0.5in;

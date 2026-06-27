@@ -48,7 +48,7 @@ const RecordCertificate: React.FC<RecordCertificateProps> = ({ document, onBack 
         </div>
       </div>
 
-      <Card className="bg-[#131520] border border-[rgba(200,150,60,0.3)] overflow-hidden">
+      <Card className="print-certificate bg-[#131520] border border-[rgba(200,150,60,0.3)] overflow-hidden">
         <div className="h-1 bg-[#C8963C]" />
         <CardHeader className="text-center bg-[#0C0D11] p-4 sm:p-6 border-b border-[rgba(200,150,60,0.15)]">
           <CardTitle className="text-xl sm:text-3xl font-serif font-bold text-[#F0EAD6]">

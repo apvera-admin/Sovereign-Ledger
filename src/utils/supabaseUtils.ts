@@ -1,8 +1,6 @@
 import { supabase } from '@/lib/supabase';
 import { addStampToDocument } from './documentStamping';
 
-const UPLOAD_FUNCTION_URL = 'https://pcsxikfvpunrkhfnauqr.supabase.co/functions/v1/833fa4d1-a392-48cd-8f21-6b2c2785ff92';
-
 interface UploadParams {
   file?: File;
   title: string;
@@ -20,31 +18,6 @@ interface UploadParams {
 }
 
 let uploadInProgress = false;
-const DIRECT_UPLOAD_THRESHOLD_BYTES = 8 * 1024 * 1024; // 8 MB
-
-const uint8ArrayToBase64 = (bytes: Uint8Array): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    try {
-      console.log(`Converting ${bytes.length} bytes to base64...`);
-      const blob = new Blob([bytes], { type: 'application/octet-stream' });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const dataUrl = reader.result as string;
-        const base64 = dataUrl.split(',')[1];
-        console.log(`Conversion complete, base64 length: ${base64.length}`);
-        resolve(base64);
-      };
-      reader.onerror = () => {
-        console.error('FileReader error:', reader.error);
-        reject(reader.error);
-      };
-      reader.readAsDataURL(blob);
-    } catch (error) {
-      console.error('Error in uint8ArrayToBase64:', error);
-      reject(error);
-    }
-  });
-};
 
 const base64ToUint8Array = (base64: string) => {
   const binaryString = atob(base64);
@@ -68,7 +41,7 @@ const generateRecordNumber = () => {
   return `SR-${year}${month}${day}-${randomPart}`;
 };
 
-const attemptDirectUploadFallback = async (
+const performDirectUpload = async (
   params: UploadParams,
   fileBytes: Uint8Array,
   fileName: string,
@@ -76,7 +49,7 @@ const attemptDirectUploadFallback = async (
 ) => {
   const { data: authData, error: authError } = await supabase.auth.getUser();
   if (authError || !authData.user) {
-    throw new Error('Unable to identify authenticated user for fallback upload.');
+    throw new Error('Unable to identify authenticated user for upload.');
   }
 
   const userId = authData.user.id;
@@ -153,180 +126,45 @@ export const uploadDocument = async (params: UploadParams) => {
   }
 
   uploadInProgress = true;
-  
+
   try {
     console.log('Starting upload with params:', { ...params, fileData: params.fileData ? '[FILE_DATA]' : 'none' });
-    
-    const { data: { session } } = await supabase.auth.getSession();
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
-    
-    if (session?.access_token) {
-      headers['Authorization'] = `Bearer ${session.access_token}`;
-    }
 
-    let fileDataToUpload: string;
-    let bytesForFallback: Uint8Array | null = null;
     const fileName = params.file?.name || params.fileName || `${params.title}.pdf`;
     const contentType = params.file?.type || 'application/pdf';
 
+    // Resolve the bytes we are going to store. PDFs get the recording stamp applied.
+    let fileBytes: Uint8Array;
     if (params.file) {
+      const arrayBuffer = await params.file.arrayBuffer();
+      let bytes = new Uint8Array(arrayBuffer);
+
       if (params.file.type === 'application/pdf') {
-        console.log('Processing PDF file:', params.file.name, 'Size:', params.file.size);
-        const arrayBuffer = await params.file.arrayBuffer();
-        const pdfBytes = new Uint8Array(arrayBuffer);
-        console.log('PDF loaded, starting stamping process...');
+        console.log('Stamping PDF:', params.file.name, 'Size:', params.file.size);
         const stampOptions = {
           submitterName: params.submitterName || '',
           isTrusteeUpload: params.isTrusteeUpload,
           trusteeName: params.trusteeName,
           clientName: params.clientName
         };
-        const stampedPdfBytes = await addStampToDocument(pdfBytes, stampOptions);
-        bytesForFallback = stampedPdfBytes;
-
-        const shouldUseDirectUploadFirst =
-          (params.file.size || 0) > DIRECT_UPLOAD_THRESHOLD_BYTES ||
-          stampedPdfBytes.length > DIRECT_UPLOAD_THRESHOLD_BYTES;
-        if (shouldUseDirectUploadFirst) {
-          console.log('Large file detected. Using direct upload path first.');
-          const fallbackDocument = await attemptDirectUploadFallback(
-            params,
-            stampedPdfBytes,
-            fileName,
-            contentType
-          );
-          return { success: true, document: fallbackDocument };
-        }
-
-        console.log('Stamping complete, converting to base64...');
-        fileDataToUpload = await uint8ArrayToBase64(stampedPdfBytes);
-      } else {
-        console.log('Processing non-PDF file:', params.file.name);
-        const arrayBuffer = await params.file.arrayBuffer();
-        const bytes = new Uint8Array(arrayBuffer);
-        bytesForFallback = bytes;
-
-        const shouldUseDirectUploadFirst =
-          (params.file.size || 0) > DIRECT_UPLOAD_THRESHOLD_BYTES ||
-          bytes.length > DIRECT_UPLOAD_THRESHOLD_BYTES;
-        if (shouldUseDirectUploadFirst) {
-          console.log('Large file detected. Using direct upload path first.');
-          const fallbackDocument = await attemptDirectUploadFallback(
-            params,
-            bytes,
-            fileName,
-            contentType
-          );
-          return { success: true, document: fallbackDocument };
-        }
-
-        fileDataToUpload = await uint8ArrayToBase64(bytes);
+        bytes = await addStampToDocument(bytes, stampOptions);
       }
+
+      fileBytes = bytes;
+    } else if (params.fileData) {
+      fileBytes = base64ToUint8Array(params.fileData);
     } else {
-      fileDataToUpload = params.fileData || '';
-      bytesForFallback = fileDataToUpload ? base64ToUint8Array(fileDataToUpload) : null;
-    }
-    
-    const requestBody = {
-      title: params.title,
-      submitterName: params.isTrusteeUpload ? params.clientName : (params.submitterName || params.trusteeName),
-      fileName,
-      fileData: fileDataToUpload,
-      clientName: params.clientName,
-      clientEmail: params.clientEmail,
-      privateNote: params.privateNote,
-      isTrusteeUpload: params.isTrusteeUpload,
-      trusteeId: params.trusteeId,
-      trusteeName: params.trusteeName,
-      folderId: params.folderId === 'no-folder' ? null : params.folderId,
-      isPublic: params.isPublic ?? false
-    };
-    
-    console.log('Making request to:', UPLOAD_FUNCTION_URL);
-    console.log('Request body isPublic:', requestBody.isPublic, 'from params.isPublic:', params.isPublic);
-    let response: Response;
-    try {
-      response = await fetch(UPLOAD_FUNCTION_URL, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify(requestBody)
-      });
-    } catch (fetchError) {
-      if (bytesForFallback) {
-        console.warn('Edge request failed before response. Attempting direct upload fallback...');
-        const fallbackDocument = await attemptDirectUploadFallback(
-          params,
-          bytesForFallback,
-          fileName,
-          contentType
-        );
-        return { success: true, document: fallbackDocument };
-      }
-
-      throw fetchError;
+      throw new Error('No file provided for upload');
     }
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Upload response error:', errorText);
+    // Upload directly from the client using the user's own session. This bypasses
+    // the legacy `upload-document` edge function, which returns HTTP 500 and does
+    // not persist the is_public flag. The direct path writes to Storage and inserts
+    // the row (with is_public, folder, and trustee fields) in one shot under RLS.
+    const document = await performDirectUpload(params, fileBytes, fileName, contentType);
+    console.log('Upload complete:', document?.record_number);
 
-      const shouldFallback =
-        response.status >= 500 ||
-        response.status === 413 ||
-        errorText.toLowerCase().includes('file upload failed');
-      if (shouldFallback && bytesForFallback) {
-        console.warn('Edge upload failed. Attempting direct upload fallback...');
-        const fallbackDocument = await attemptDirectUploadFallback(
-          params,
-          bytesForFallback,
-          fileName,
-          contentType
-        );
-        return { success: true, document: fallbackDocument };
-      }
-
-      throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
-    }
-
-    const result = await response.json();
-    console.log('Upload response:', result);
-    
-    if (!result.success) {
-      const errorMessage = String(result.error || 'Upload failed');
-      const shouldFallback = errorMessage.toLowerCase().includes('file upload failed');
-      if (shouldFallback && bytesForFallback) {
-        console.warn('Edge upload returned failure. Attempting direct upload fallback...');
-        const fallbackDocument = await attemptDirectUploadFallback(
-          params,
-          bytesForFallback,
-          fileName,
-          contentType
-        );
-        return { success: true, document: fallbackDocument };
-      }
-      throw new Error(result.error || 'Upload failed');
-    }
-
-    // WORKAROUND: Edge Function doesn't properly handle isPublic, so update it directly
-    if (result.document && params.isPublic !== undefined && result.document.is_public !== params.isPublic) {
-      console.log(`Fixing is_public field: Edge Function returned ${result.document.is_public}, but should be ${params.isPublic}`);
-      
-      const { error: updateError } = await supabase
-        .from('documents')
-        .update({ is_public: params.isPublic })
-        .eq('id', result.document.id);
-      
-      if (updateError) {
-        console.error('Failed to update is_public field:', updateError);
-      } else {
-        result.document.is_public = params.isPublic;
-        console.log('Successfully updated is_public to:', params.isPublic);
-      }
-    }
-
-    return { success: true, document: result.document };
+    return { success: true, document };
   } catch (error) {
     console.error('Upload error in supabaseUtils:', error);
     return { success: false, error: error instanceof Error ? error.message : 'Upload failed' };

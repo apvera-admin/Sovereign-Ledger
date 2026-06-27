@@ -155,7 +155,18 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         if (session?.user) {
           setUser(session.user);
           if (event !== 'TOKEN_REFRESHED') {
-            await fetchUserProfile(session.user.id, session.user);
+            // IMPORTANT: Do NOT await Supabase calls directly inside this callback.
+            // supabase-js invokes onAuthStateChange while holding its internal auth
+            // lock (Web Locks API). Any Supabase query awaited here needs that same
+            // lock and deadlocks — which on a page refresh (INITIAL_SESSION) wedges
+            // the profile fetch and every subsequent query (documents, uploads) until
+            // they time out. Defer the fetch so it runs after the lock is released.
+            const authUser = session.user;
+            setTimeout(() => {
+              if (mountedRef.current) {
+                fetchUserProfile(authUser.id, authUser);
+              }
+            }, 0);
           }
         } else if (event === 'INITIAL_SESSION') {
           setUser(null);
